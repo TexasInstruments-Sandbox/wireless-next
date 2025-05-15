@@ -7354,6 +7354,13 @@ static void cfg80211_sta_set_mld_sinfo(struct station_info *sinfo)
 		}
 		init++;
 	}
+
+	/* Reset sinfo->filled bits to exclude fields which don't
+	 * make sense at the MLO level.
+	 */
+	sinfo->filled &= ~BIT_ULL(NL80211_STA_INFO_CHAIN_SIGNAL);
+	sinfo->filled &= ~BIT_ULL(NL80211_STA_INFO_CHAIN_SIGNAL_AVG);
+	sinfo->filled &= ~BIT_ULL(NL80211_STA_INFO_TID_STATS);
 }
 
 static int nl80211_dump_station(struct sk_buff *skb,
